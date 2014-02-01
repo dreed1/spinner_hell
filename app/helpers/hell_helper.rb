@@ -1,0 +1,2 @@
+module HellHelper
+end
