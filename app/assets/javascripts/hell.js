@@ -400,8 +400,10 @@
   Simulator.prototype.flash = function(times, text, callback) {
     if (times == 0) {
       callback();
+      this.buttonVisible = true;
       return;
     }
+    this.buttonVisible = false;
     var _this = this;
     var nextTime = times - 1;
 
