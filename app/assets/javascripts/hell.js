@@ -149,13 +149,18 @@
       var _this = this;
     this.inHell = false;
     this.burning = false;
-    var numFlashes = Math.ceil(Math.random() * 7);
+    var numFlashes = Math.ceil(Math.random() * 9);
     var strings = [
       'LOADING TORTURE',
       'HIT THE BUTTON',
       'HIGH MOTHERFUCKING LATENCY',
       'GET THE BUTTON',
-      'WAITING FOR RESPONSE FROM SATAN'
+      'WAITING FOR RESPONSE FROM SATAN',
+      "LAAAAAAAAAAAG",
+      'F5F5F5F5F5F5F5F5F5F5',
+      'OH GOD PLEASE LOAD!',
+      'IS THE INTERNET BROKEN?',
+      'SOMEBODY UNPLUG THE ROUTER AND MODEM'
     ]
     var chosenString = strings[Math.floor(Math.random() * strings.length)];
     _this.flash(numFlashes, chosenString, function() {
