@@ -27,6 +27,8 @@
       y: this.canvasHeight/2
     };
 
+    this.songPlaying = false;
+
     this.fire = new Fire({
       width: this.canvasWidth,
       height: this.canvasHeight,
@@ -38,8 +40,8 @@
       fadingFlameSpeed:10
     });
 
-    this.buttonStartWidth = 212;
-    this.buttonHellWidth = 200;
+    this.buttonStartWidth = 200;
+    this.buttonHellWidth = 186;
     this.buttonWidth = this.buttonStartWidth;
 
     this.startButtonText = 'TOUCH TO START';
@@ -105,14 +107,15 @@
         this.spinnerEnabled = true;
         this.buttonVisible = false;
         _this.animateSpinnerChange(
-            240, 10, 35
+            600, 10, 35
           )
         setTimeout(function() {
           _this.animateSpinnerChange(
-            240, 22, 80
+            600, 22, 80
           )
           setTimeout(function() {
             _this.flash(10, "IT'LL NEVER LOAD", function() {
+              _this.moveButton();
               _this.goToHell();
             });
           }, 4000)
@@ -122,6 +125,7 @@
   }
 
   Simulator.prototype.goToHell = function() {
+    var _this = this;
     this.buttonVisible = true;
     this.inHell = true;
     this.buttonText = this.hellButtonText;
@@ -130,17 +134,40 @@
     this.spinnerEnabled = true;
     this.spinnerWidth = 500;
     this.backgroundColor = 'black';
-    this.moveButton();
     this.spinnerColor = {
       r: 255,
       g: 255,
       b: 255
     }
     this.playSong();
+    setTimeout(function() {
+      _this.flashRandom();
+    }, Math.random() * 10000); 
+  }
+
+  Simulator.prototype.flashRandom = function() {
+      var _this = this;
+    this.inHell = false;
+    this.burning = false;
+    var numFlashes = Math.ceil(Math.random() * 7);
+    var strings = [
+      'LOADING TORTURE',
+      'HIT THE BUTTON',
+      'HIGH MOTHERFUCKING LATENCY',
+      'GET THE BUTTON',
+      'WAITING FOR RESPONSE FROM SATAN'
+    ]
+    var chosenString = strings[Math.floor(Math.random() * strings.length)];
+    _this.flash(numFlashes, chosenString, function() {
+      _this.goToHell();
+    });
   }
 
   Simulator.prototype.playSong = function() {
-    $('#video').append('<iframe width="420" height="315" src="//www.youtube.com/embed/LaeIOGFZ0Lc?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+    if(!this.songPlaying) {
+      $('#video').append('<iframe width="560" height="315" src="//www.youtube.com/embed/480uhsB3yKk?autoplay=1" frameborder="0" allowfullscreen></iframe>');
+      this.songPlaying = true;
+    }
   }
 
   Simulator.prototype.animateSpinnerChange = function(times, innerRadius, outerRadius) {
@@ -265,7 +292,7 @@
   }
 
   Simulator.prototype.draw = function() {
-    //this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.drawBackground();
     if (this.inHell) {
       this.drawFire();
@@ -295,7 +322,7 @@
   }
 
   Simulator.prototype.drawDerogatoryMessage = function() {
-    this.context.font = '28pt Calibri';
+    this.context.font = '28pt Impact';
     this.context.fillStyle = '#c22';
     this.context.fillText("WELCOME TO SPINNER HELL", 400, 125);
   }
@@ -344,15 +371,15 @@
       this.buttonHeight);
     this.context.stroke();
     this.context.fill();
-    this.context.font = '20pt Calibri';
+    this.context.font = '20pt Impact';
     this.context.fillStyle = 'black';
     this.context.fillText(this.buttonText, 
       this.buttonOriginX + 10, 
-      this.buttonOriginY + 20 + 10);
+      this.buttonOriginY + 20 + 10 + 2);
   }
 
   Simulator.prototype.writeMessage = function(canvas, message) {
-    this.context.font = '38pt Calibri';
+    this.context.font = '38pt Impact';
     this.context.fillStyle = 'black';
     this.context.fillText(message, 80, 95);
   }
@@ -379,7 +406,7 @@
       g: 0,
       b: 0
     }
-    this.context.font = '28pt Calibri';
+    this.context.font = '28pt Impact';
     this.context.fillStyle = 'white';
     this.context.fillText(text, 80, 105);
 
@@ -390,7 +417,7 @@
         g: 255,
         b: 255
       }
-      _this.context.font = '28pt Calibri';
+      _this.context.font = '28pt Impact';
       _this.context.fillStyle = 'black';
       _this.context.fillText(text, 80, 105);
       setTimeout(function() {
